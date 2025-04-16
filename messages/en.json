@@ -12,8 +12,8 @@
   "Hero": {
     "greeting": "Hello, I'm",
     "title": "Nicolas Cloutier",
-    "subtitle": "Protocol Designer & Blockchain Architect",
-    "description": "I design and build innovative DeFi protocols with a focus on capital efficiency and security.",
+    "subtitle": "Creating the impossible",
+    "description": "I design and build innovative protocols, security algorithms and ways to make our world easier and better with a focus on efficiency and security.",
     "cta": "View My Work",
     "contact": "Contact Me",
     "scrollDown": "Scroll Down"
@@ -21,7 +21,7 @@
   "About": {
     "title": "About Me",
     "subtitle": "About Me",
-    "description": "I'm a blockchain architect and protocol designer with expertise in DeFi, AMM design, and cryptographic systems. With a background in mathematics and computer science, I specialize in creating efficient and secure decentralized protocols.",
+    "description": "I'm a blockchain architect, a quantum technologies researcher, and protocol designer with expertise in DeFi, AMM design, and cryptographic systems. With a background in mathematics and computer science, I specialize in creating efficient and secure decentralized protocols.",
     "skills": "My Skills",
     "keyRoles": {
       "title": "Key Roles",
@@ -31,11 +31,11 @@
       },
       "axiomverse": {
         "title": "Axiomverse Foundation",
-        "description": "Technical advisor for cross-chain interoperability solutions"
+        "description": "Founder of a FinTech innovation lab focused on No-blockchain decentralized protocols based on quantum principles and axioms."
       },
       "d4l": {
-        "title": "Data4Life Initiative",
-        "description": "Cryptographic systems designer for privacy-preserving health data"
+        "title": "D4L Platform",
+        "description": "A DEX, a social gathering place, a prediction market and token launcher."
       }
     },
     "journey": {
