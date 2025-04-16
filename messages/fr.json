@@ -1,0 +1,139 @@
+{
+  "Navbar": {
+    "home": "Accueil",
+    "about": "À propos",
+    "experience": "Expérience",
+    "expertise": "Expertise",
+    "projects": "Projets",
+    "research": "Recherche",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "greeting": "Bonjour, je suis",
+    "title": "Nicolas Cloutier",
+    "subtitle": "Concepteur de Protocoles & Architecte Blockchain",
+    "description": "Je conçois et développe des protocoles DeFi innovants en mettant l'accent sur l'efficacité du capital et la sécurité.",
+    "cta": "Voir Mon Travail",
+    "contact": "Me Contacter",
+    "scrollDown": "Défiler vers le bas"
+  },
+  "About": {
+    "title": "À Propos de Moi",
+    "subtitle": "À Propos de Moi",
+    "description": "Je suis un architecte blockchain et concepteur de protocoles spécialisé en DeFi, conception d'AMM et systèmes cryptographiques. Avec une formation en mathématiques et informatique, je me spécialise dans la création de protocoles décentralisés efficaces et sécurisés.",
+    "skills": "Mes Compétences",
+    "keyRoles": {
+      "title": "Rôles Clés",
+      "hydra": {
+        "title": "Protocole AMM Hydra",
+        "description": "Architecte principal d'un protocole AMM révolutionnaire avec des courbes de liquidité adaptatives"
+      },
+      "axiomverse": {
+        "title": "Fondation Axiomverse",
+        "description": "Conseiller technique pour les solutions d'interopérabilité cross-chain"
+      },
+      "d4l": {
+        "title": "Initiative Data4Life",
+        "description": "Concepteur de systèmes cryptographiques pour la protection des données de santé"
+      }
+    },
+    "journey": {
+      "title": "Mon Parcours",
+      "paragraph1": "Avec plus de 25 ans dans le développement logiciel, j'ai évolué des systèmes traditionnels vers l'architecture blockchain.",
+      "paragraph2": "Je me concentre sur la création de systèmes décentralisés efficaces, sécurisés et innovants qui résolvent des problèmes concrets."
+    },
+    "vision": {
+      "title": "Vision",
+      "description": "Je crois en un avenir où les systèmes décentralisés offrent une plus grande inclusion financière, une souveraineté des données et des opportunités économiques pour tous.",
+      "motto": "Construire des ponts entre la théorie mathématique et les applications pratiques"
+    },
+    "achievements": {
+      "title": "Réalisations Clés",
+      "items": [
+        {
+          "title": "Conception de Protocoles",
+          "description": "Création de protocoles AMM innovants avec 130% d'efficacité du capital"
+        },
+        {
+          "title": "Recherche en Sécurité",
+          "description": "Publication de recherches sur les méthodes cryptographiques résistantes aux ordinateurs quantiques"
+        },
+        {
+          "title": "Innovation DeFi",
+          "description": "Pionnier de nouvelles approches pour les produits dérivés décentralisés"
+        },
+        {
+          "title": "Architecture Système",
+          "description": "Conception d'infrastructures blockchain à haut débit"
+        },
+        {
+          "title": "Contrats Intelligents",
+          "description": "Développement de systèmes de contrats optimisés pour les principaux protocoles"
+        },
+        {
+          "title": "Preuves à Connaissance Nulle",
+          "description": "Implémentation de systèmes de vérification préservant la confidentialité"
+        }
+      ]
+    }
+  },
+  "Experience": {
+    "title": "Expérience",
+    "viewAll": "Voir Tout"
+  },
+  "Expertise": {
+    "title": "Expertise",
+    "description": "Je me spécialise dans les domaines suivants du développement blockchain et de la conception de protocoles."
+  },
+  "Projects": {
+    "title": "Projets",
+    "viewProject": "Voir le Projet",
+    "viewCode": "Voir le Code"
+  },
+  "Blog": {
+    "title": "Blog",
+    "subtitle": "Réflexions sur la technologie blockchain, la conception de protocoles et l'avenir des systèmes décentralisés.",
+    "readMore": "Lire Plus",
+    "minuteRead": "min de lecture",
+    "publishedOn": "Publié le {date}",
+    "readingTime": "{minutes} min de lecture",
+    "tags": "Tags",
+    "relatedArticles": "Articles Connexes"
+  },
+  "Research": {
+    "title": "Recherche",
+    "viewPaper": "Voir l'Article"
+  },
+  "Articles": {
+    "title": "Derniers Articles",
+    "readMore": "Lire Plus",
+    "viewAll": "Voir Tous les Articles"
+  },
+  "Contact": {
+    "title": "Contactez-Moi",
+    "description": "N'hésitez pas à me contacter si vous cherchez un développeur, avez une question ou souhaitez simplement échanger.",
+    "nameLabel": "Votre Nom",
+    "emailLabel": "Votre Email",
+    "messageLabel": "Votre Message",
+    "sendButton": "Envoyer le Message"
+  },
+  "Footer": {
+    "copyright": "© {year} Nicolas Cloutier. Tous droits réservés.",
+    "language": "Langue"
+  },
+  "Admin": {
+    "title": "Tableau de Bord Admin",
+    "manageArticles": "Gérer vos articles",
+    "newArticle": "Nouvel Article",
+    "loading": "Chargement des articles...",
+    "noArticles": "Aucun article trouvé",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "publish": "Publier",
+    "unpublish": "Dépublier",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet article ?"
+  }
+}

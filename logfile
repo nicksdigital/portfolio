@@ -1,0 +1,43 @@
+2025-04-15 22:39:18.710 EDT [23480] LOG:  starting PostgreSQL 14.17 (Homebrew) on x86_64-apple-darwin23.6.0, compiled by Apple clang version 16.0.0 (clang-1600.0.26.6), 64-bit
+2025-04-15 22:39:18.712 EDT [23480] LOG:  listening on IPv6 address "::1", port 5432
+2025-04-15 22:39:18.712 EDT [23480] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-04-15 22:39:18.714 EDT [23480] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-04-15 22:39:18.719 EDT [23481] LOG:  database system was shut down at 2025-04-15 22:39:04 EDT
+2025-04-15 22:39:18.728 EDT [23480] LOG:  database system is ready to accept connections
+2025-04-15 22:39:23.449 EDT [23492] FATAL:  database "nick" does not exist
+2025-04-15 22:39:28.862 EDT [23525] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:39:28.862 EDT [23525] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:39:28.869 EDT [23525] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2025-04-15 22:39:28.869 EDT [23525] STATEMENT:  select "id", "name", "created_at", "updated_at" from "tags" "tags" where "tags"."name" = $1 limit $2
+2025-04-15 22:40:21.616 EDT [23548] FATAL:  database "nick" does not exist
+2025-04-15 22:40:36.864 EDT [23580] FATAL:  database "nick" does not exist
+2025-04-15 22:40:45.147 EDT [23621] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:40:45.147 EDT [23621] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:40:45.152 EDT [23621] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2025-04-15 22:40:45.152 EDT [23621] STATEMENT:  select "id", "name", "created_at", "updated_at" from "tags" "tags" where "tags"."name" = $1 limit $2
+2025-04-15 22:41:06.829 EDT [23637] FATAL:  database "nick" does not exist
+2025-04-15 22:41:13.845 EDT [23677] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:41:13.845 EDT [23677] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:41:13.873 EDT [23679] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:41:13.873 EDT [23679] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:41:13.885 EDT [23680] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:41:13.885 EDT [23680] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:41:13.897 EDT [23681] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:41:13.897 EDT [23681] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:41:13.912 EDT [23682] ERROR:  relation "tags" does not exist at character 13
+2025-04-15 22:41:13.912 EDT [23682] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:41:13.936 EDT [23683] ERROR:  relation "articles" does not exist at character 13
+2025-04-15 22:41:13.936 EDT [23683] STATEMENT:  insert into "articles" ("id", "slug", "locale", "title", "description", "layers", "date", "image", "published", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, default, default) returning "id", "slug", "locale", "title", "description", "layers", "date", "image", "published", "created_at", "updated_at"
+2025-04-15 22:43:43.849 EDT [23793] ERROR:  duplicate key value violates unique constraint "tags_name_key"
+2025-04-15 22:43:43.849 EDT [23793] DETAIL:  Key (name)=(Blockchain) already exists.
+2025-04-15 22:43:43.849 EDT [23793] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:43:45.358 EDT [23795] ERROR:  duplicate key value violates unique constraint "tags_name_key"
+2025-04-15 22:43:45.358 EDT [23795] DETAIL:  Key (name)=(Proof) already exists.
+2025-04-15 22:43:45.358 EDT [23795] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-15 22:43:46.808 EDT [23797] ERROR:  duplicate key value violates unique constraint "tags_name_key"
+2025-04-15 22:43:46.808 EDT [23797] DETAIL:  Key (name)=(MAGENTO) already exists.
+2025-04-15 22:43:46.808 EDT [23797] STATEMENT:  insert into "tags" ("id", "name", "created_at", "updated_at") values (default, $1, default, default) returning "id", "name", "created_at", "updated_at"
+2025-04-16 11:32:18.252 EDT [23480] LOG:  received smart shutdown request
+2025-04-16 11:32:18.256 EDT [23480] LOG:  background worker "logical replication launcher" (PID 23487) exited with exit code 1
+2025-04-16 11:32:18.256 EDT [23482] LOG:  shutting down
+2025-04-16 11:32:18.278 EDT [23480] LOG:  database system is shut down
