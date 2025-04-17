@@ -1,5 +1,5 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { db } from '../db';
 import { users, sessions } from '../db/schema';
@@ -15,36 +15,39 @@ const SESSION_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7 days
 router.post('/register', async (req, res) => {
   try {
     const { email, password, firstName, lastName, role = 'user' } = req.body;
-    
+
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
     }
-    
+
     // Check if user already exists
     const existingUser = await db.query.users.findFirst({
       where: eq(users.email, email)
     });
-    
+
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    
+
     // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hashedPassword = crypto
+      .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
+      .toString('hex');
+    const passwordWithSalt = `${salt}:${hashedPassword}`;
+
     // Create user
     const [user] = await db
       .insert(users)
       .values({
         email,
-        password: hashedPassword,
+        password: passwordWithSalt,
         firstName,
         lastName,
         role,
       })
       .returning({ id: users.id, email: users.email, role: users.role });
-    
+
     res.status(201).json({
       user: {
         id: user.id,
@@ -63,38 +66,42 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
     }
-    
+
     // Find user
     const user = await db.query.users.findFirst({
       where: eq(users.email, email)
     });
-    
+
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
+
     // Check if user is active
     if (!user.isActive) {
       return res.status(401).json({ message: 'Account is inactive' });
     }
-    
+
     // Verify password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    
+    const [salt, storedHash] = user.password.split(':');
+    const hash = crypto
+      .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
+      .toString('hex');
+    const isPasswordValid = storedHash === hash;
+
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
+
     // Generate token
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
-    
+
     // Set session expiry
     const expiryDate = new Date(Date.now() + SESSION_EXPIRY);
-    
+
     // Store session
     await db
       .insert(sessions)
@@ -103,7 +110,7 @@ router.post('/login', async (req, res) => {
         token,
         expires: expiryDate,
       });
-    
+
     res.json({
       token,
       user: {
@@ -127,16 +134,16 @@ router.post('/logout', authenticate, async (req, res) => {
     // Get token from header
     const authHeader = req.header('Authorization');
     const token = authHeader && authHeader.split(' ')[1];
-    
+
     if (!token) {
       return res.status(400).json({ message: 'Token is required' });
     }
-    
+
     // Delete session
     await db
       .delete(sessions)
       .where(eq(sessions.token, token));
-    
+
     res.json({ message: 'Logged out successfully' });
   } catch (error) {
     console.error('Error logging out:', error);
@@ -150,7 +157,7 @@ router.get('/me', authenticate, async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authenticated' });
     }
-    
+
     const user = await db.query.users.findFirst({
       where: eq(users.id, req.user.id),
       columns: {
@@ -163,11 +170,11 @@ router.get('/me', authenticate, async (req, res) => {
         createdAt: true,
       }
     });
-    
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
+
     res.json(user);
   } catch (error) {
     console.error('Error getting current user:', error);
@@ -181,47 +188,54 @@ router.put('/change-password', authenticate, async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: 'Not authenticated' });
     }
-    
+
     const { currentPassword, newPassword } = req.body;
-    
+
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ message: 'Current password and new password are required' });
     }
-    
+
     // Find user
     const user = await db.query.users.findFirst({
       where: eq(users.id, req.user.id)
     });
-    
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
+
     // Verify current password
-    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
-    
+    const [salt, storedHash] = user.password.split(':');
+    const hash = crypto
+      .pbkdf2Sync(currentPassword, salt, 1000, 64, 'sha512')
+      .toString('hex');
+    const isPasswordValid = storedHash === hash;
+
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Current password is incorrect' });
     }
-    
+
     // Hash new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
-    
+    const newSalt = crypto.randomBytes(16).toString('hex');
+    const hashedPassword = crypto
+      .pbkdf2Sync(newPassword, newSalt, 1000, 64, 'sha512')
+      .toString('hex');
+    const passwordWithSalt = `${newSalt}:${hashedPassword}`;
+
     // Update password
     await db
       .update(users)
       .set({
-        password: hashedPassword,
+        password: passwordWithSalt,
         updatedAt: new Date()
       })
       .where(eq(users.id, req.user.id));
-    
+
     // Invalidate all existing sessions
     await db
       .delete(sessions)
       .where(eq(sessions.userId, req.user.id));
-    
+
     res.json({ message: 'Password changed successfully. Please log in again.' });
   } catch (error) {
     console.error('Error changing password:', error);

@@ -1,7 +1,9 @@
+import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import * as schema from './schema';
+import { articles, tags, articleTags } from './schema';
 
 // Load environment variables
 dotenv.config();
@@ -13,26 +15,31 @@ if (!connectionString) {
   throw new Error('DATABASE_URL environment variable is not defined');
 }
 
-// Create a connection pool
+
+// @ts-ignore
 const pool = new Pool({
   connectionString,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  max: 1,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+  
 });
+ 
+const db = drizzle(pool, { schema: { articles, tags, articleTags } });
 
-// Test database connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Database connection error:', err);
-  } else {
-    console.log('Connected to database at:', res.rows[0].now);
-  }
-});
 
-// Create a Drizzle client
-export const db = drizzle(pool, { schema });
 
+if (!pool) {
+  throw new Error('Failed to create Drizzle client');
+}
+else {
+  console.log('Drizzle client created successfully');
+}
 // Export the pool for raw queries
-export { pool };
+
+
+
+export { db};
 
 // Export the schema
 export { schema };

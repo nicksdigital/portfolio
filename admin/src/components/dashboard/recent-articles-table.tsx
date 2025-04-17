@@ -19,19 +19,88 @@ import { Edit, Eye, EyeOff } from 'lucide-react';
 
 export default function RecentArticlesTable() {
   const router = useRouter();
-  
-  // Fetch recent articles
-  const { data: articles, isLoading, error } = useQuery<Article[]>({
-    queryKey: ['recent-articles'],
-    queryFn: async () => {
-      const { data } = await api.articles.getAll({
-        limit: 5,
-        showUnpublished: true,
-      });
-      return data;
+
+  // TEMPORARY: Mock recent articles for development
+  const mockArticles: Article[] = [
+    {
+      id: 1,
+      title: 'Getting Started with React',
+      slug: 'getting-started-with-react',
+      locale: 'en',
+      description: 'Learn the basics of React and build your first component',
+      layers: {
+        headline: { content: '' },
+        context: { content: '' },
+        detail: { content: '' },
+        discussion: { content: '' }
+      },
+      date: new Date().toISOString(),
+      published: true,
+      viewCount: 450,
+      createdAt: new Date().toISOString(),
+      tags: ['React', 'JavaScript', 'Frontend']
     },
-  });
-  
+    {
+      id: 2,
+      title: 'Advanced TypeScript Patterns',
+      slug: 'advanced-typescript-patterns',
+      locale: 'en',
+      description: 'Explore advanced TypeScript patterns for better type safety',
+      layers: {
+        headline: { content: '' },
+        context: { content: '' },
+        detail: { content: '' },
+        discussion: { content: '' }
+      },
+      date: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+      published: true,
+      viewCount: 320,
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+      tags: ['TypeScript', 'JavaScript']
+    },
+    {
+      id: 3,
+      title: 'Building a Blog with Next.js',
+      slug: 'building-blog-nextjs',
+      locale: 'en',
+      description: 'Step-by-step guide to building a blog with Next.js',
+      layers: {
+        headline: { content: '' },
+        context: { content: '' },
+        detail: { content: '' },
+        discussion: { content: '' }
+      },
+      date: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+      published: true,
+      viewCount: 280,
+      createdAt: new Date(Date.now() - 172800000).toISOString(),
+      tags: ['Next.js', 'React']
+    },
+    {
+      id: 4,
+      title: 'CSS Grid Layout Mastery',
+      slug: 'css-grid-layout-mastery',
+      locale: 'en',
+      description: 'Master CSS Grid Layout for modern web design',
+      layers: {
+        headline: { content: '' },
+        context: { content: '' },
+        detail: { content: '' },
+        discussion: { content: '' }
+      },
+      date: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
+      published: false,
+      viewCount: 0,
+      createdAt: new Date(Date.now() - 259200000).toISOString(),
+      tags: ['CSS', 'Web Design']
+    },
+  ];
+
+  // Mock loading and error states
+  const isLoading = false;
+  const error = null;
+  const articles = mockArticles;
+
   // Loading state
   if (isLoading) {
     return (
@@ -40,7 +109,7 @@ export default function RecentArticlesTable() {
       </div>
     );
   }
-  
+
   // Error state
   if (error || !articles) {
     return (
@@ -54,7 +123,7 @@ export default function RecentArticlesTable() {
       </div>
     );
   }
-  
+
   // Empty state
   if (articles.length === 0) {
     return (
@@ -68,7 +137,7 @@ export default function RecentArticlesTable() {
       </div>
     );
   }
-  
+
   return (
     <Table>
       <TableHeader>

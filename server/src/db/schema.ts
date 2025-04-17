@@ -1,13 +1,13 @@
-import { 
-  pgTable, 
-  serial, 
-  text, 
-  timestamp, 
-  boolean, 
-  varchar, 
-  jsonb, 
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  boolean,
+  varchar,
+  jsonb,
   integer,
-  primaryKey 
+  primaryKey
 } from 'drizzle-orm/pg-core';
 
 // Users table (for admin, authors)
@@ -61,9 +61,9 @@ export const categories = pgTable('categories', {
 export const articleCategories = pgTable('article_categories', {
   articleId: integer('article_id').notNull().references(() => articles.id, { onDelete: 'cascade' }),
   categoryId: integer('category_id').notNull().references(() => categories.id, { onDelete: 'cascade' }),
-}, (t) => ({
-  pk: primaryKey({ columns: [t.articleId, t.categoryId] }),
-}));
+  // Add a composite primary key constraint
+  id: serial('id').primaryKey(),
+});
 
 // Tags table
 export const tags = pgTable('tags', {

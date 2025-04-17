@@ -37,7 +37,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".markdownlayer/generated"
-  ],
+, "admin/next.config.ts"  ],
   "exclude": [
     "node_modules"
   ]

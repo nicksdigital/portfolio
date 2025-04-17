@@ -8,7 +8,7 @@ import { AppWebSocketServer } from './src/lib/websockets/websocketServer.js';
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4000;
 
 // In-memory storage for data
 const articleClaps = new Map();

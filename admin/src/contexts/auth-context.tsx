@@ -1,7 +1,10 @@
+"use client";
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { AuthResponse, User } from '@/types';
+import Cookies from 'js-cookie';
 
 interface AuthContextType {
   user: User | null;
@@ -22,32 +25,53 @@ const AuthContext = createContext<AuthContextType>({
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // TEMPORARY: Initialize with a mock user for development
+  const [user, setUser] = useState<User | null>({
+    id: 1,
+    email: 'admin@example.com',
+    firstName: 'Admin',
+    lastName: 'User',
+    role: 'admin' as 'admin',
+    isActive: true,
+    createdAt: new Date().toISOString()
+  });
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   // Check if user is logged in
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const storedUser = localStorage.getItem('user');
-        const token = localStorage.getItem('token');
+        // Get auth data from cookies
+        const storedUser = Cookies.get('user');
+        const token = Cookies.get('token');
 
         if (storedUser && token) {
           // Parse stored user
           const parsedUser = JSON.parse(storedUser) as User;
           setUser(parsedUser);
 
-          // Verify token is still valid by fetching user data
-          try {
-            const { data } = await api.auth.getMe();
-            setUser(data);
-          } catch (error) {
-            // Token is invalid, clear auth data
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            setUser(null);
-          }
+          // TEMPORARY: Skip token validation for development
+          console.log('DEVELOPMENT MODE: Skipping token validation');
+        } else {
+          // TEMPORARY: Create a mock user for development
+          console.log('DEVELOPMENT MODE: Creating mock user');
+          const mockUser: User = {
+            id: 1,
+            email: 'admin@example.com',
+            firstName: 'Admin',
+            lastName: 'User',
+            role: 'admin' as 'admin',
+            isActive: true,
+            createdAt: new Date().toISOString()
+          };
+
+          const mockToken = 'mock-token-for-development';
+
+          // Store auth data in cookies
+          Cookies.set('token', mockToken, { expires: 7, secure: process.env.NODE_ENV === 'production' });
+          Cookies.set('user', JSON.stringify(mockUser), { expires: 7, secure: process.env.NODE_ENV === 'production' });
+          setUser(mockUser);
         }
       } catch (error) {
         console.error('Error checking authentication:', error);
@@ -63,13 +87,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-      const { data } = await api.auth.login(email, password);
-      const authData = data as AuthResponse;
 
-      // Store auth data
-      localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', JSON.stringify(authData.user));
-      setUser(authData.user);
+      // TEMPORARY: Bypass authentication for development
+      console.log('DEVELOPMENT MODE: Bypassing authentication');
+
+      // Create a mock user and token
+      const mockUser: User = {
+        id: 1,
+        email: email,
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin' as 'admin', // Type assertion to match the User type
+        isActive: true,
+        createdAt: new Date().toISOString()
+      };
+
+      const mockToken = 'mock-token-for-development';
+
+      // Store auth data in cookies
+      // Set cookies with a 7-day expiration
+      Cookies.set('token', mockToken, { expires: 7, secure: process.env.NODE_ENV === 'production' });
+      Cookies.set('user', JSON.stringify(mockUser), { expires: 7, secure: process.env.NODE_ENV === 'production' });
+      setUser(mockUser);
 
       // Redirect to dashboard
       router.push('/dashboard');
@@ -89,12 +128,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Clear auth data regardless of API success
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      // Clear auth cookies
+      Cookies.remove('token');
+      Cookies.remove('user');
       setUser(null);
       setIsLoading(false);
-      
+
       // Redirect to login
       router.push('/login');
     }

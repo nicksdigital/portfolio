@@ -14,16 +14,39 @@ import PopularTagsChart from '@/components/dashboard/popular-tags-chart';
 
 export default function DashboardPage() {
   const router = useRouter();
-  
-  // Fetch dashboard stats
-  const { data: stats, isLoading, error } = useQuery<DashboardStats>({
-    queryKey: ['dashboard-stats'],
-    queryFn: async () => {
-      const { data } = await api.dashboard.getStats();
-      return data;
+
+  // TEMPORARY: Mock dashboard stats for development
+  const mockStats: DashboardStats = {
+    articles: {
+      total: 12,
+      published: 8,
+      views: 1250,
+      mostViewed: [
+        { id: 1, title: 'Getting Started with React', slug: 'getting-started-with-react', viewCount: 450 },
+        { id: 2, title: 'Advanced TypeScript Patterns', slug: 'advanced-typescript-patterns', viewCount: 320 },
+        { id: 3, title: 'Building a Blog with Next.js', slug: 'building-blog-nextjs', viewCount: 280 },
+      ],
     },
-  });
-  
+    tags: {
+      total: 24,
+      mostUsed: [
+        { tagId: 1, tagName: 'React', count: 5 },
+        { tagId: 2, tagName: 'JavaScript', count: 8 },
+        { tagId: 3, tagName: 'TypeScript', count: 6 },
+        { tagId: 4, tagName: 'Next.js', count: 4 },
+        { tagId: 5, tagName: 'CSS', count: 3 },
+      ],
+    },
+    users: {
+      total: 3,
+    },
+  };
+
+  // Mock loading and error states
+  const isLoading = false;
+  const error = null;
+  const stats = mockStats;
+
   // Loading state
   if (isLoading) {
     return (
@@ -32,7 +55,7 @@ export default function DashboardPage() {
       </div>
     );
   }
-  
+
   // Error state
   if (error || !stats) {
     return (
@@ -47,7 +70,7 @@ export default function DashboardPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -56,10 +79,10 @@ export default function DashboardPage() {
           New Article
         </Button>
       </div>
-      
+
       {/* Stats Overview */}
       <DashboardStatsOverview stats={stats} />
-      
+
       {/* Tabs for different views */}
       <Tabs defaultValue="recent" className="space-y-4">
         <TabsList>
@@ -76,7 +99,7 @@ export default function DashboardPage() {
             <span>Popular Tags</span>
           </TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="recent">
           <Card>
             <CardHeader>
@@ -90,7 +113,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="popular">
           <Card>
             <CardHeader>
@@ -127,7 +150,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="tags">
           <Card>
             <CardHeader>
